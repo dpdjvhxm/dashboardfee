@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 256" role="img" aria-label="coupang logo">
+  <rect width="1280" height="256" fill="none"/>
+  <g font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="232" letter-spacing="-18">
+    <text x="0" y="196" fill="#9A5A22">cou</text>
+    <text x="532" y="196" fill="#F04923">p</text>
+    <text x="708" y="196" fill="#FFC400">a</text>
+    <text x="900" y="196" fill="#7AC70C">n</text>
+    <text x="1088" y="196" fill="#29A9E0">g</text>
+  </g>
+</svg>
