@@ -3,25 +3,28 @@ const FLIGHT_KEY = 'sirva-flight-booking-records-v3';
 const ACCOUNT_KEY = 'global-mobility-accounts-v1';
 const NOTICE_KEY = 'global-mobility-notices-v1';
 const DEMO_VERSION_KEY = 'global-mobility-demo-data-version';
-const DEMO_VERSION = '2026-demo-v1';
+const DEMO_VERSION = '2026-demo-v2-payment-tw-sg-kr-jp';
 
 const FX = { KRW: 1, USD: 1350, SGD: 1000, TWD: 42, JPY: 9.2, AUD: 890 };
 const krw = (amount, currency = 'KRW') => Math.round(Number(amount || 0) * (FX[currency] || 1));
 
 const paymentRows = [
-  ['Taiwan','Jan','2026-01-12','DF-872156','INV-DMO-217761','DEMO-TW','EMP-D001','Alex Demo','SIRVA Fee','Demo-Relocation','Demo tuition support invoice / Taiwan / January','CC-DEMO-TW-01','USD',987,'2026-05-11','PO-DEMO-001','ACC-DEMO-0001','N60','PAID'],
-  ['Taiwan','Feb','2026-02-12','DF-871204','INV-DMO-217353','DEMO-TW','EMP-D002','Blair Sample','Disbursement','Demo-Tuition','Demo international school tuition invoice / Taiwan','CC-DEMO-TW-02','USD',8750,'2026-04-24','PO-DEMO-002','ACC-DEMO-0002','N30','PAID'],
-  ['Taiwan','Mar','2026-03-12','DF-871359','INV-DMO-217532','DEMO-TW','EMP-D003','Casey Test','SIRVA Fee','Demo-Housing','Demo education relocation fee / Taiwan','CC-DEMO-TW-03','USD',6705,'2026-05-11','PO-DEMO-003','ACC-DEMO-0003','N30','PAID'],
-  ['Taiwan','Apr','2026-04-02','DF-873160','INV-DMO-218073','DEMO-TW','EMP-D004','Dana Mock','Disbursement','Demo-Transport','Demo school transportation cost / Taiwan','CC-DEMO-TW-04','USD',21623,'2026-06-01','PO-DEMO-004','ACC-DEMO-0004','N30','PAID'],
-  ['Singapore','Apr','2026-04-02','DF-875725','INV-DMO-218374','DEMO-SG','EMP-D005','Evan Placeholder','SIRVA Fee','Demo-Relocation','Demo service fee / Singapore','CC-DEMO-SG-01','USD',1930,'2026-06-01','PO-DEMO-005','ACC-DEMO-0005','N60','PAID'],
-  ['Singapore','May','2026-05-14','DF-875991','INV-DMO-218455','DEMO-SG','EMP-D006','Finley Demo','Disbursement','Demo-Tuition','Demo school tuition invoice / Singapore','CC-DEMO-SG-02','SGD',18900,'2026-06-20','PO-DEMO-006','ACC-DEMO-0006','N30','PAID'],
-  ['Korea','Jun','2026-06-02','DF-879210','INV-DMO-219001','DEMO-KR','EMP-D007','Gray Sample','SIRVA Fee','Demo-Relocation','Demo mobility fee / Korea','CC-DEMO-KR-01','USD',1450,'2026-06-30','PO-DEMO-007','ACC-DEMO-0007','N60','PAYMENT_PENDING'],
-  ['USA','Jul','2026-07-18','DF-881008','INV-DMO-219423','DEMO-US','EMP-D008','Harper Test','Disbursement','Demo-Tuition','Demo school tuition invoice / USA','CC-DEMO-US-01','USD',22500,'2026-08-09','PO-DEMO-008','ACC-DEMO-0008','N30','APPROVED'],
-  ['Australia','Aug','2026-08-04','DF-884019','INV-DMO-219880','DEMO-AU','EMP-D009','Indigo Mock','Disbursement','Demo-Tuition','Demo school tuition invoice / Australia','CC-DEMO-AU-01','AUD',14800,'2026-08-29','PO-DEMO-009','ACC-DEMO-0009','N30','PAID'],
-  ['India','Sep','2026-09-03','DF-886201','INV-DMO-220115','DEMO-IN','EMP-D010','Jordan Placeholder','SIRVA Fee','Demo-Relocation','Demo relocation service fee / India','CC-DEMO-IN-01','USD',1210,'2026-09-28','PO-DEMO-010','ACC-DEMO-0010','N60','PAID'],
-  ['Japan','Oct','2026-10-10','DF-889904','INV-DMO-220771','DEMO-JP','EMP-D011','Kai Demo','Disbursement','Demo-Tuition','Demo tuition support invoice / Japan','CC-DEMO-JP-01','JPY',1650000,'2026-10-30','PO-DEMO-011','ACC-DEMO-0011','N30','RECEIVED'],
-  ['Hong Kong','Nov','2026-11-12','DF-892001','INV-DMO-221008','DEMO-HK','EMP-D012','Logan Sample','SIRVA Fee','Demo-Relocation','Demo service fee / Hong Kong','CC-DEMO-HK-01','USD',1640,'2026-11-29','PO-DEMO-012','ACC-DEMO-0012','N60','APPROVED'],
-  ['USA','Dec','2026-12-08','DF-895112','INV-DMO-221554','DEMO-US','EMP-D013','Morgan Test','Disbursement','Demo-Transport','Demo transport support invoice / USA','CC-DEMO-US-02','USD',6200,'2026-12-24','PO-DEMO-013','ACC-DEMO-0013','N30','PAID']
+  ['Taiwan','Jan','2026-01-12','DF-TW-001','INV-DEMO-TW-001','DEMO-TW','EMP-TW-001','Taiwan Demo User 01','SIRVA Fee','Demo-Relocation','Demo relocation service fee / Taiwan / January','CC-DEMO-TW-01','USD',980,'2026-01-28','PO-DEMO-TW-001','ACC-DEMO-TW-001','N60','PAID'],
+  ['Taiwan','Feb','2026-02-09','DF-TW-002','INV-DEMO-TW-002','DEMO-TW','EMP-TW-002','Taiwan Demo User 02','Disbursement','Demo-Tuition','Demo tuition invoice / Taiwan / February','CC-DEMO-TW-02','USD',7200,'2026-02-24','PO-DEMO-TW-002','ACC-DEMO-TW-002','N30','PAID'],
+  ['Taiwan','Mar','2026-03-15','DF-TW-003','INV-DEMO-TW-003','DEMO-TW','EMP-TW-003','Taiwan Demo User 03','Disbursement','Demo-Transport','Demo school transportation cost / Taiwan / March','CC-DEMO-TW-03','TWD',265000,'2026-03-30','PO-DEMO-TW-003','ACC-DEMO-TW-003','N30','APPROVED'],
+  ['Taiwan','Apr','2026-04-11','DF-TW-004','INV-DEMO-TW-004','DEMO-TW','EMP-TW-004','Taiwan Demo User 04','SIRVA Fee','Demo-Relocation','Demo mobility handling fee / Taiwan / April','CC-DEMO-TW-04','USD',1280,'2026-04-25','PO-DEMO-TW-004','ACC-DEMO-TW-004','N60','PAID'],
+  ['Singapore','Jan','2026-01-20','DF-SG-001','INV-DEMO-SG-001','DEMO-SG','EMP-SG-001','Singapore Demo User 01','SIRVA Fee','Demo-Relocation','Demo relocation service fee / Singapore / January','CC-DEMO-SG-01','USD',1450,'2026-02-05','PO-DEMO-SG-001','ACC-DEMO-SG-001','N60','PAID'],
+  ['Singapore','Feb','2026-02-18','DF-SG-002','INV-DEMO-SG-002','DEMO-SG','EMP-SG-002','Singapore Demo User 02','Disbursement','Demo-Tuition','Demo international school tuition / Singapore / February','CC-DEMO-SG-02','SGD',13200,'2026-03-03','PO-DEMO-SG-002','ACC-DEMO-SG-002','N30','PAID'],
+  ['Singapore','May','2026-05-14','DF-SG-003','INV-DEMO-SG-003','DEMO-SG','EMP-SG-003','Singapore Demo User 03','Disbursement','Demo-Tuition','Demo semester tuition invoice / Singapore / May','CC-DEMO-SG-03','SGD',18900,'2026-06-20','PO-DEMO-SG-003','ACC-DEMO-SG-003','N30','PAID'],
+  ['Singapore','Jun','2026-06-10','DF-SG-004','INV-DEMO-SG-004','DEMO-SG','EMP-SG-004','Singapore Demo User 04','SIRVA Fee','Demo-Relocation','Demo service fee / Singapore / June','CC-DEMO-SG-04','USD',1700,'2026-06-30','PO-DEMO-SG-004','ACC-DEMO-SG-004','N60','PAYMENT_PENDING'],
+  ['Korea','Mar','2026-03-05','DF-KR-001','INV-DEMO-KR-001','DEMO-KR','EMP-KR-001','Korea Demo User 01','SIRVA Fee','Demo-Relocation','Demo mobility fee / Korea / March','CC-DEMO-KR-01','KRW',1950000,'2026-03-21','PO-DEMO-KR-001','ACC-DEMO-KR-001','N60','PAID'],
+  ['Korea','Apr','2026-04-17','DF-KR-002','INV-DEMO-KR-002','DEMO-KR','EMP-KR-002','Korea Demo User 02','Disbursement','Demo-Tuition','Demo education support invoice / Korea / April','CC-DEMO-KR-02','KRW',8300000,'2026-05-02','PO-DEMO-KR-002','ACC-DEMO-KR-002','N30','APPROVED'],
+  ['Korea','Jul','2026-07-03','DF-KR-003','INV-DEMO-KR-003','DEMO-KR','EMP-KR-003','Korea Demo User 03','Disbursement','Demo-Transport','Demo school bus support invoice / Korea / July','CC-DEMO-KR-03','KRW',1450000,'2026-07-19','PO-DEMO-KR-003','ACC-DEMO-KR-003','N30','PAID'],
+  ['Korea','Aug','2026-08-22','DF-KR-004','INV-DEMO-KR-004','DEMO-KR','EMP-KR-004','Korea Demo User 04','SIRVA Fee','Demo-Relocation','Demo service fee / Korea / August','CC-DEMO-KR-04','KRW',1780000,'2026-09-06','PO-DEMO-KR-004','ACC-DEMO-KR-004','N60','PAID'],
+  ['Japan','May','2026-05-09','DF-JP-001','INV-DEMO-JP-001','DEMO-JP','EMP-JP-001','Japan Demo User 01','SIRVA Fee','Demo-Relocation','Demo relocation handling fee / Japan / May','CC-DEMO-JP-01','JPY',220000,'2026-05-24','PO-DEMO-JP-001','ACC-DEMO-JP-001','N60','PAID'],
+  ['Japan','Sep','2026-09-12','DF-JP-002','INV-DEMO-JP-002','DEMO-JP','EMP-JP-002','Japan Demo User 02','Disbursement','Demo-Tuition','Demo tuition invoice / Japan / September','CC-DEMO-JP-02','JPY',1650000,'2026-09-30','PO-DEMO-JP-002','ACC-DEMO-JP-002','N30','RECEIVED'],
+  ['Japan','Oct','2026-10-10','DF-JP-003','INV-DEMO-JP-003','DEMO-JP','EMP-JP-003','Japan Demo User 03','Disbursement','Demo-Transport','Demo school transportation invoice / Japan / October','CC-DEMO-JP-03','JPY',420000,'2026-10-29','PO-DEMO-JP-003','ACC-DEMO-JP-003','N30','APPROVED'],
+  ['Japan','Dec','2026-12-08','DF-JP-004','INV-DEMO-JP-004','DEMO-JP','EMP-JP-004','Japan Demo User 04','SIRVA Fee','Demo-Relocation','Demo service fee / Japan / December','CC-DEMO-JP-04','USD',1540,'2026-12-24','PO-DEMO-JP-004','ACC-DEMO-JP-004','N60','PAID']
 ].map((r, i) => {
   const currency = r[12];
   const amount = r[13];
