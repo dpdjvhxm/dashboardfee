@@ -23,19 +23,31 @@ function countryFromElement(el) {
   return Object.keys(COUNTRY_CODES).find((name) => text === name || text.endsWith(` ${name}`)) || text;
 }
 
+function flagCdnUrl(code) {
+  return `https://flagcdn.com/w40/${code}.png`;
+}
+
 function setCountryWithIcon(el, country) {
   if (!el || !COUNTRY_CODES[country]) return;
-  if (el.querySelector('.flagIcon')) return;
+  if (el.querySelector('.flagIconImg')) return;
+  const code = COUNTRY_CODES[country];
   el.dataset.countryName = country;
   el.textContent = '';
+
   const wrap = document.createElement('span');
   wrap.className = 'countryWithFlag';
-  const icon = document.createElement('span');
-  icon.className = `flagIcon flag-${COUNTRY_CODES[country]}`;
-  icon.setAttribute('aria-hidden', 'true');
+
+  const img = document.createElement('img');
+  img.className = 'flagIconImg';
+  img.src = flagCdnUrl(code);
+  img.alt = `${country} flag`;
+  img.loading = 'lazy';
+  img.referrerPolicy = 'no-referrer';
+
   const label = document.createElement('span');
   label.textContent = country;
-  wrap.appendChild(icon);
+
+  wrap.appendChild(img);
   wrap.appendChild(label);
   el.appendChild(wrap);
 }
