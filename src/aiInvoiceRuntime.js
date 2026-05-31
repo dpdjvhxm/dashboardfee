@@ -8,24 +8,41 @@ const TEXT_MAP = new Map([
   ['왼쪽에서 인보이스를 업로드하거나 샘플 텍스트로 AI 분석을 실행하세요.', 'Upload an invoice or run AI analysis with the sample text.'],
   ['중복 저장 방지 적용', 'Duplicate prevention enabled'],
   ['신뢰도 낮은 항목은 담당자가 수정한 뒤 확정 저장하세요. 저장 시 Payment 데이터에 바로 반영됩니다.', 'Review low-confidence fields before saving. Confirmed records are saved directly into Payment Tracker.'],
+  ['신뢰도 낮은 항목은 담당자가 수정한 뒤 확정 저장하세요. 저장 시 Payment Data에 바로 반영됩니다.', 'Review low-confidence fields before saving. Confirmed records are saved directly into Payment Tracker.'],
   ['검수 완료 후 Payment 저장', 'Save to Payment Tracker'],
 ]);
 
 let scheduled = false;
+let observerStarted = false;
 
 function replaceOwnText(node) {
   if (!node || node.nodeType !== Node.TEXT_NODE) return;
   const raw = node.nodeValue || '';
   const trimmed = raw.trim();
   if (!trimmed) return;
+
   if (TEXT_MAP.has(trimmed)) {
     node.nodeValue = raw.replace(trimmed, TEXT_MAP.get(trimmed));
     return;
   }
-  const next = raw
-    .replace(/검수 필요\s*(\d+)건/g, 'Review Required: $1')
-    .replace(/예상 KRW/g, 'Estimated KRW')
-    .replace(/신뢰도\s*(\d+)%/g, 'Confidence $1%');
+
+  let next = raw;
+  next = next.replace(/AI 인보이스 추출\/검수/g, 'AI Invoice Extraction & Review');
+  next = next.replace(/AI 인보이스 추출/g, 'AI Invoice Extraction');
+  next = next.replace(/인보이스 업로드\/텍스트 입력/g, 'Invoice Upload / Text Input');
+  next = next.replace(/AI 분석 실행/g, 'Run AI Analysis');
+  next = next.replace(/추출 결과 검수/g, 'Extraction Result Review');
+  next = next.replace(/검수 필요\s*(\d+)건/g, 'Review Required: $1');
+  next = next.replace(/검수 필요/g, 'Review Required');
+  next = next.replace(/예상 KRW/g, 'Estimated KRW');
+  next = next.replace(/중복 저장 방지 적용/g, 'Duplicate prevention enabled');
+  next = next.replace(/신뢰도\s*(\d+)%/g, 'Confidence $1%');
+  next = next.replace(/신뢰도/g, 'Confidence');
+  next = next.replace(/신뢰도 낮은 항목은 담당자가 수정한 뒤 확정 저장하세요\. 저장 시 Payment (?:데이터|Data)에 바로 반영됩니다\./g, 'Review low-confidence fields before saving. Confirmed records are saved directly into Payment Tracker.');
+  next = next.replace(/검수 완료 후 Payment 저장/g, 'Save to Payment Tracker');
+  next = next.replace(/왼쪽에서 인보이스를 업로드하거나 샘플 텍스트로 AI 분석을 실행하세요\./g, 'Upload an invoice or run AI analysis with the sample text.');
+  next = next.replace(/현재 화면은 프론트 데모입니다\. 실제 운영에서는 이 지점에서 백엔드가 OCR\/AI API를 호출하고, 결과만 프론트로 전달합니다\./g, 'This is a front-end demo screen. In production, the backend should call the OCR/AI API and return structured JSON results to this review screen.');
+
   if (next !== raw) node.nodeValue = next;
 }
 
@@ -34,6 +51,7 @@ function translateTree(root = document.body) {
   const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
   let node;
   while ((node = walker.nextNode())) replaceOwnText(node);
+
   document.querySelectorAll('textarea[placeholder="인보이스 원문 또는 OCR 결과를 붙여넣으세요."]').forEach(el => {
     el.placeholder = 'Paste invoice text or OCR output here.';
   });
@@ -72,9 +90,21 @@ function injectAiInvoiceStyles() {
   document.head.appendChild(style);
 }
 
+function startSafeObserver() {
+  if (observerStarted) return;
+  observerStarted = true;
+  const observer = new MutationObserver(mutations => {
+    const shouldRun = mutations.some(m => m.type === 'childList' && (m.addedNodes.length || m.removedNodes.length));
+    if (shouldRun) scheduleTranslate();
+  });
+  observer.observe(document.body, { childList: true, subtree: true });
+}
+
 export function initAiInvoiceRuntime() {
   injectAiInvoiceStyles();
   scheduleTranslate();
+  startSafeObserver();
   document.addEventListener('click', scheduleTranslate, true);
   document.addEventListener('change', scheduleTranslate, true);
+  document.addEventListener('input', scheduleTranslate, true);
 }
