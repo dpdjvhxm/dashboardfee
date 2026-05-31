@@ -75,7 +75,42 @@ function injectAiInvoiceStyles() {
     .aiInput,.aiReview{min-height:calc(100vh - 160px)}
     .aiInput h3,.aiReview h3{display:flex;align-items:center;gap:8px;margin-bottom:12px}
     .aiInput p{color:#64748b;line-height:1.65;margin:0 0 16px}
-    .aiInput input[type="file"]{width:100%;display:block;margin:0 0 14px;padding:14px;border:1px dashed #93c5fd;border-radius:14px;background:#f8fbff;color:#334155;font-weight:800}
+    .aiInput input[type="file"]{
+      width:100%;
+      display:block;
+      margin:0 0 14px;
+      padding:17px 18px;
+      min-height:54px;
+      border:1px dashed #93c5fd;
+      border-radius:14px;
+      background:#f8fbff;
+      color:transparent !important;
+      cursor:pointer;
+      font-size:0 !important;
+      overflow:hidden;
+    }
+    .aiInput input[type="file"]::file-selector-button{
+      width:0;
+      padding:0;
+      margin:0;
+      border:0;
+      color:transparent;
+      background:transparent;
+    }
+    .aiInput input[type="file"]::-webkit-file-upload-button{
+      width:0;
+      padding:0;
+      margin:0;
+      border:0;
+      color:transparent;
+      background:transparent;
+    }
+    .aiInput input[type="file"]{
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='520' height='54' viewBox='0 0 520 54'%3E%3Crect x='0' y='0' width='520' height='54' rx='12' fill='%23f8fbff'/%3E%3Ctext x='18' y='33' font-family='Arial, Helvetica, sans-serif' font-size='14' font-weight='700' fill='%23111827'%3EChoose invoice file%3C/text%3E%3Ctext x='170' y='33' font-family='Arial, Helvetica, sans-serif' font-size='13' font-weight='600' fill='%2364748b'%3ENo file selected%3C/text%3E%3C/svg%3E");
+      background-repeat:no-repeat;
+      background-position:left center;
+      background-size:auto 54px;
+    }
     .aiInput textarea{width:100%;min-height:360px;resize:vertical;border:1px solid #d1d5db;border-radius:14px;padding:14px;background:#fff;color:#111827;line-height:1.55;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;margin-bottom:14px}
     .aiReview .emptyState{display:grid;place-items:center;min-height:260px;border:1px dashed #cbd5e1;border-radius:16px;background:#f8fafc;color:#64748b;font-weight:900;text-align:center;padding:24px}
     .aiSummary{display:grid !important;grid-template-columns:1fr !important;gap:10px !important;margin-bottom:16px !important}
